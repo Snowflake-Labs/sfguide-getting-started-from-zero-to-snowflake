@@ -1,5 +1,5 @@
 /***************************************************************************************************       
-Asset:        Zero to Snowflake - Getting Started with Snowflake
+Asset:        Zero to Snowflake - Apps & Collaboration
 Version:      v1     
 Copyright(c): 2025 Snowflake Inc. All rights reserved.
 ****************************************************************************************************
