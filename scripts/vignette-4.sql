@@ -473,7 +473,7 @@ GRANT APPLICATION ROLE SNOWFLAKE.TRUST_CENTER_ADMIN TO ROLE tb_admin;
 USE ROLE tb_admin; -- Switch back to the TastyBytes admin role
 
 /*
-    We can get to the Trust Center by clicking the 'Monitoring' button in the Navigation Menu, then 
+    In the navigation menu, hover over 'Governance & security', and then click 
     'Trust Center'. You can open the Trust Center in a seperate browser tab if preferred.
     When we first load the Trust Center we can see several panes and sections:
         1. Tabs: Findings, Scanner Packages
