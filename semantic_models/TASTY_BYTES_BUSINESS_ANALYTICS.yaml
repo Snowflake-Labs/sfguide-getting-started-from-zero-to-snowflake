@@ -1,5 +1,6 @@
 name: TASTY_BYTES_BUSINESS_ANALYTICS
-description: Semantic model for Tasty Bytes executive analytics, covering customer loyalty and order performance data for natural language querying
+description: |
+  Semantic model for Tasty Bytes executive analytics, covering customer loyalty and order performance data for natural language querying
 tables:
   - name: CUSTOMER_LOYALTY_METRICS_V
     synonyms:
@@ -12,9 +13,6 @@ tables:
       database: TB_101
       schema: SEMANTIC_LAYER
       table: CUSTOMER_LOYALTY_METRICS_V
-    primary_key:
-      columns:
-        - CUSTOMER_ID
     dimensions:
       - name: CITY
         synonyms:
@@ -30,224 +28,245 @@ tables:
         expr: CITY
         data_type: VARCHAR(16777216)
         sample_values:
-          - Rio de Janeiro
-          - Munich
-          - Cairo
+          - Vancouver
+          - New York City
+          - Berlin
       - name: COUNTRY
         synonyms:
           - nation
           - land
-          # 'territory' and 'state' removed to avoid duplication with REGION in ORDERS_V
-          - nationality
+          - territory
+          - state
+          - region
+          - area
+          - locale
           - homeland
         description: The country where the customer is located.
         expr: COUNTRY
         data_type: VARCHAR(16777216)
         sample_values:
-          - Canada
-          - Brazil
           - Poland
+          - Germany
+          - Japan
       - name: CUSTOMER_ID
         synonyms:
+          - customer_key
           - client_id
-          - customer_number
-          - account_id
-          - user_id
           - patron_id
-          - client_number
-          - account_number
+          - account_holder_id
+          - user_id
         description: Unique identifier for a customer in the loyalty program.
         expr: CUSTOMER_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '205464'
-          - '205627'
-          - '206064'
+          - '92890'
+          - '31247'
+          - '100458'
       - name: VISITED_LOCATION_IDS_ARRAY
         synonyms:
           - location_ids_visited
           - visited_location_ids_list
-          - location_history
-          - visited_places
+          - customer_location_history
           - location_id_array
-          - locations_visited_array
+          - visited_locations
+          - location_ids_traveled
         description: Array of unique location IDs visited by a customer.
         expr: VISITED_LOCATION_IDS_ARRAY
         data_type: ARRAY
         sample_values:
           - |-
             [
-              "10169",
-              "10172",
-              "10193",
-              "10746",
-              "11183",
-              "11190",
-              "11500",
-              "11757",
-              "11759",
-              "11761",
-              "11984",
-              "12200",
-              "12393",
-              "12565",
-              "12703",
-              "12709",
-              "12825",
-              "12939",
-              "13061",
-              "13374",
-              "13671",
-              "13824",
-              "13825",
-              "13970",
-              "14054",
-              "14074",
-              "14165",
-              "14307",
-              "14310",
-              "14476",
-              "14586",
-              "4392",
-              "4395",
-              "4398",
-              "4399",
-              "4419",
-              "4437",
-              "4449",
-              "4450",
-              "4467",
-              "4480",
-              "8008",
-              "8024",
-              "8027",
-              "8038",
-              "8040",
-              "8043",
-              "8044",
-              "9389",
-              "9393"
+              "10000",
+              "10001",
+              "10004",
+              "10635",
+              "10638",
+              "11094",
+              "11098",
+              "11101",
+              "11103",
+              "11445",
+              "11448",
+              "12154",
+              "6942",
+              "7124",
+              "7130",
+              "7133",
+              "7135",
+              "7142",
+              "7145",
+              "7166",
+              "7174",
+              "7181",
+              "7190",
+              "7194",
+              "7199",
+              "7202",
+              "7213",
+              "7215",
+              "7223",
+              "7227",
+              "7241",
+              "7251",
+              "7263",
+              "7298",
+              "7300",
+              "7302",
+              "7305",
+              "7308",
+              "7316",
+              "7322",
+              "7328",
+              "7360",
+              "7369",
+              "7371",
+              "7377",
+              "7379",
+              "7381",
+              "7388",
+              "7391",
+              "7392",
+              "9093",
+              "9103",
+              "9107",
+              "9113",
+              "9119",
+              "9123",
+              "9139",
+              "9142",
+              "9148",
+              "9153",
+              "9156",
+              "9160",
+              "9990",
+              "9991",
+              "9994"
             ]
           - |-
             [
-              "10623",
-              "10625",
-              "10632",
-              "10633",
-              "11090",
-              "11439",
-              "11442",
-              "6864",
-              "6872",
-              "6878",
-              "6881",
-              "6887",
-              "6889",
-              "6898",
-              "6901",
-              "6903",
-              "6925",
-              "6948",
-              "6954",
-              "6962",
-              "6973",
-              "6976",
-              "6979",
-              "7016",
-              "7029",
-              "7031",
-              "7038",
-              "7049",
-              "7063",
-              "7065",
-              "7070",
-              "7074",
-              "7076",
-              "7078",
-              "7101",
-              "7109",
-              "7112",
-              "7119",
-              "7120",
-              "9018",
-              "9026",
-              "9032",
-              "9034",
-              "9049",
-              "9050",
-              "9076",
-              "9079",
-              "9085",
-              "9087",
-              "9957",
-              "9964",
-              "9969",
-              "9970",
-              "9975",
-              "9982"
+              "10195",
+              "10211",
+              "10214",
+              "10215",
+              "10231",
+              "10232",
+              "10767",
+              "10771",
+              "10775",
+              "11203",
+              "11210",
+              "11513",
+              "11771",
+              "11777",
+              "11993",
+              "11998",
+              "12210",
+              "12404",
+              "12569",
+              "12948",
+              "13173",
+              "14012",
+              "14380",
+              "4512",
+              "4523",
+              "4533",
+              "4534",
+              "4546",
+              "4571",
+              "4579",
+              "4582",
+              "4589",
+              "4596",
+              "4599",
+              "4600",
+              "4601",
+              "4615",
+              "4619",
+              "4621",
+              "4623",
+              "4633",
+              "4634",
+              "4636",
+              "4638",
+              "4648",
+              "4650",
+              "8059",
+              "8061",
+              "8074",
+              "8082",
+              "8083",
+              "8084",
+              "8091",
+              "8100",
+              "8101",
+              "8108",
+              "8117",
+              "8128",
+              "8137",
+              "8139",
+              "8142",
+              "8145",
+              "9409",
+              "9424",
+              "9428",
+              "9430",
+              "9433",
+              "9440",
+              "9453"
             ]
           - |-
             [
-              "10565",
-              "10572",
-              "11407",
-              "12133",
-              "12134",
-              "12514",
-              "14264",
-              "14300",
-              "14652",
-              "14674",
-              "14677",
-              "15507",
-              "6224",
-              "6237",
-              "6242",
-              "6251",
-              "6261",
-              "6266",
-              "6269",
-              "6291",
-              "6292",
-              "6295",
-              "6299",
-              "6307",
-              "6310",
-              "6325",
-              "6331",
-              "6332",
-              "6335",
-              "6342",
-              "6346",
-              "6351",
-              "6353",
-              "6359",
-              "6360",
-              "6366",
-              "6386",
-              "6388",
-              "6392",
-              "6400",
-              "6402",
-              "6412",
-              "6418",
-              "6420",
-              "6437",
-              "6441",
-              "6449",
-              "6450",
-              "6458",
-              "6460",
-              "6465",
-              "6467",
-              "6468",
-              "6516",
-              "8844",
-              "8860",
-              "8878",
-              "9896",
-              "9898",
-              "9903"
+              "10429",
+              "10432",
+              "10915",
+              "10919",
+              "10921",
+              "10926",
+              "10931",
+              "11311",
+              "11312",
+              "11321",
+              "11602",
+              "11607",
+              "11613",
+              "12067",
+              "12072",
+              "12275",
+              "12455",
+              "12605",
+              "13101",
+              "13103",
+              "13498",
+              "13789",
+              "13943",
+              "14204",
+              "14313",
+              "14330",
+              "15516",
+              "5393",
+              "5411",
+              "5438",
+              "5445",
+              "5448",
+              "5461",
+              "5484",
+              "5486",
+              "5490",
+              "5500",
+              "5533",
+              "5547",
+              "5550",
+              "5560",
+              "5563",
+              "5567",
+              "8483",
+              "8489",
+              "8496",
+              "8507",
+              "8540",
+              "9668",
+              "9673",
+              "9705"
             ]
     facts:
       - name: TOTAL_SALES
@@ -255,16 +274,20 @@ tables:
           - total_revenue
           - overall_sales
           - total_orders_value
-          - sales_total
-          - total_customer_spending
-          - aggregate_sales
+          - total_revenue_generated
+          - aggregate_sales_amount
+          - total_customer_expenditure
         description: The total sales amount generated by each customer.
         expr: TOTAL_SALES
         data_type: NUMBER(38,4)
+        access_modifier: public_access
         sample_values:
-          - '9436.5000'
-          - '9140.0000'
-          - '9154.5000'
+          - '8263.0000'
+          - '8648.2500'
+          - '6734.0000'
+    primary_key:
+      columns:
+        - CUSTOMER_ID
   - name: ORDERS_V
     synonyms:
       - Orders
@@ -281,56 +304,64 @@ tables:
         synonyms:
           - nation
           - land
-          - homeland
+          - territory
+          - state
+          - region
+          - area
+          - locale
           - nationality
-        description: The country where the order was shipped to.
+        description: The country where the order was placed.
         expr: COUNTRY
         data_type: VARCHAR(16777216)
         sample_values:
-          - Australia
+          - England
+          - United States
           - India
-          - South Korea
       - name: CUSTOMER_ID
         synonyms:
           - client_id
           - customer_number
           - client_number
           - account_id
-          - account_number
           - user_id
+          - patron_id
+          - buyer_id
         description: Unique identifier for the customer who placed the order.
         expr: CUSTOMER_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '106087'
-          - '117590'
+          - '103412'
+          - '104945'
+          - '99502'
       - name: FRANCHISE_ID
         synonyms:
           - franchise_code
           - franchise_number
+          - outlet_id
+          - store_id
           - chain_id
           - affiliate_id
           - partner_id
-        description: Unique identifier for the franchise that the order is associated with.
+        description: Unique identifier for the franchise that the order was placed through.
         expr: FRANCHISE_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '233'
-          - '229'
-          - '228'
+          - '299'
+          - '137'
+          - '272'
       - name: GENDER
         synonyms:
           - sex
           - male_female
           - demographic
           - biological_sex
-          - personal_identification
+          - personal_gender
         description: The gender of the customer who placed the order.
         expr: GENDER
         data_type: VARCHAR(16777216)
         sample_values:
           - Male
-          - Undisclosed
+          - Female
       - name: LOCATION_ID
         synonyms:
           - store_id
@@ -340,28 +371,26 @@ tables:
           - branch_id
           - facility_id
           - premises_id
-          - site_number
         description: Unique identifier for the location where the order was placed or fulfilled.
         expr: LOCATION_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '8618'
-          - '10456'
-          - '11328'
+          - '8158'
+          - '5245'
+          - '10868'
       - name: MARITAL_STATUS
         synonyms:
-          - civil_status
+          - marital_state
           - relationship_status
-          - marital_condition
+          - civil_status
           - family_status
-          - relationship_type
-          - partnership_status
+          - personal_status
         description: The marital status of the customer who placed the order.
         expr: MARITAL_STATUS
         data_type: VARCHAR(16777216)
         sample_values:
+          - Undisclosed
           - Married
-          - Single
       - name: MENU_ITEM_ID
         synonyms:
           - item_id
@@ -374,24 +403,24 @@ tables:
         expr: MENU_ITEM_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '91'
-          - '92'
-          - '93'
+          - '81'
+          - '42'
+          - '114'
       - name: MENU_ITEM_NAME
         synonyms:
           - item_name
           - menu_item
-          - dish_name
-          - food_name
           - product_name
-          - item_description
+          - dish_name
+          - food_item
+          - menu_description
         description: The name of the menu item ordered by the customer.
         expr: MENU_ITEM_NAME
         data_type: VARCHAR(16777216)
         sample_values:
-          - Veggie Combo
-          - Buffalo Mac & Cheese
-          - Lean Chicken Tibs
+          - Two Meat Plate
+          - Tonkotsu Ramen
+          - Lean Chicken Tikka Masala
       - name: MENU_TYPE
         synonyms:
           - menu_category
@@ -399,15 +428,14 @@ tables:
           - dish_type
           - cuisine
           - menu_classification
-          - item_type
           - food_classification
-        description: Type of cuisine ordered.
+        description: Type of menu item ordered, such as Ice Cream, Ramen, or BBQ.
         expr: MENU_TYPE
         data_type: VARCHAR(16777216)
         sample_values:
-          - Chinese
-          - Indian
-          - Gyros
+          - Ice Cream
+          - Ramen
+          - BBQ
       - name: ORDER_DETAIL_ID
         synonyms:
           - order_line_id
@@ -420,9 +448,9 @@ tables:
         expr: ORDER_DETAIL_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '800144906'
-          - '800150689'
-          - '800161515'
+          - '76011116'
+          - '76016390'
+          - '76025921'
       - name: ORDER_ID
         synonyms:
           - order_number
@@ -431,45 +459,48 @@ tables:
           - order_reference
           - invoice_number
           - purchase_order_number
-        description: Unique identifier for each order.
+        description: Unique identifier for each order placed in the system.
         expr: ORDER_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '124338653'
-          - '124323904'
-          - '124324965'
+          - '46937872'
+          - '46960867'
+          - '97713514'
       - name: PRIMARY_CITY
         synonyms:
           - main_city
           - primary_town
-          - major_city
-          - key_city
-          - principal_city
-          - central_city
+          - city
+          - hometown
+          - main_town
+          - hometown_name
+          - primary_location
+          - main_location
         description: The city where the order was primarily fulfilled or originated from.
         expr: PRIMARY_CITY
         data_type: VARCHAR(16777216)
         sample_values:
-          - Delhi
-          - Seoul
-          - Sao Paulo
+          - London
+          - Rio de Janeiro
+          - San Mateo
       - name: REGION
         synonyms:
           - area
-          - territory # Kept here, removed from COUNTRY
+          - territory
           - zone
           - district
           - province
-          - state # Kept here, removed from COUNTRY
+          - state
           - county
-          - locale # Kept here, removed from COUNTRY
-          - geographical_area
+          - locality
+          - geographic_area
         description: Geographic region where the order was placed.
         expr: REGION
         data_type: VARCHAR(16777216)
         sample_values:
-          - Seoul Capital
-          - New South Wales
+          - Mazowieckie województwo
+          - Western Cape
+          - Bavaria
       - name: TRUCK_BRAND_NAME
         synonyms:
           - truck_maker
@@ -482,39 +513,57 @@ tables:
         expr: TRUCK_BRAND_NAME
         data_type: VARCHAR(16777216)
         sample_values:
+          - The Mega Melt
           - Le Coin des Crêpes
-          - Tasty Tibs
-          - Revenge of the Curds
+          - Guac n' Roll
       - name: TRUCK_ID
         synonyms:
           - vehicle_id
+          - truck_number
+          - vehicle_identifier
           - truck_identifier
           - lorry_id
-          - vehicle_identifier
           - transport_id
+          - hauler_id
           - rig_id
-        description: Unique identifier for the truck that made the delivery.
+        description: Unique identifier for the truck that transported the order.
         expr: TRUCK_ID
         data_type: VARCHAR(134217728)
         sample_values:
-          - '306'
-          - '305'
-          - '307'
+          - '293'
+          - '278'
+          - '400'
+    time_dimensions:
+      - name: ORDER_DATE
+        synonyms:
+          - order_timestamp
+          - order_creation_date
+          - order_placement_date
+          - order_submission_date
+          - order_receipt_date
+          - order_datetime
+        description: Date on which the order was placed.
+        expr: ORDER_DATE
+        data_type: DATE
+        sample_values:
+          - '2021-12-20'
+          - '2022-05-03'
+          - '2022-03-13'
     facts:
       - name: FRANCHISE_FLAG
         synonyms:
           - franchise_status
           - franchise_indicator
           - is_franchise
-          - franchise_type
-          - partner_flag
-          - affiliation_status
+          - franchise_designation
+          - franchise_marker
         description: Indicates whether the order is from a franchise location (1) or a company-owned location (0).
         expr: FRANCHISE_FLAG
         data_type: NUMBER(38,0)
+        access_modifier: public_access
         sample_values:
-          - '1'
           - '0'
+          - '1'
       - name: ORDER_TOTAL
         synonyms:
           - order_amount
@@ -524,14 +573,15 @@ tables:
           - total_price
           - order_price
           - total_amount_due
-          - order_subtotal
+          - order_cost
         description: The total amount of the order, including all items and any applicable taxes or discounts.
         expr: ORDER_TOTAL
         data_type: NUMBER(38,4)
+        access_modifier: public_access
         sample_values:
-          - '10.0000'
-          - '8.0000'
-          - '63.0000'
+          - '708.0000'
+          - '638.5000'
+          - '657.2500'
       - name: QUANTITY
         synonyms:
           - amount
@@ -543,14 +593,15 @@ tables:
           - items
           - stock
           - inventory
-          - measure
+          - supply
         description: The quantity of items ordered.
         expr: QUANTITY
         data_type: NUMBER(5,0)
+        access_modifier: public_access
         sample_values:
           - '1'
-          - '3'
-          - '5'
+          - '7'
+          - '19'
 relationships:
   - name: ORDERS_TO_CUSTOMER_LOYALTY_METRICS
     left_table: ORDERS_V
@@ -558,5 +609,3 @@ relationships:
     relationship_columns:
       - left_column: CUSTOMER_ID
         right_column: CUSTOMER_ID
-    relationship_type: many_to_one
-    join_type: left_outer
