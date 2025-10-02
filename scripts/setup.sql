@@ -507,6 +507,7 @@ SELECT * FROM (
     SELECT
         order_id::VARCHAR AS order_id,
         truck_id::VARCHAR AS truck_id,
+        order_ts::DATE as order_ts,
         order_detail_id::VARCHAR AS order_detail_id,
         truck_brand_name,
         menu_type,
