@@ -534,7 +534,7 @@ tables:
           - '278'
           - '400'
     time_dimensions:
-      - name: ORDER_DATE
+      - name: ORDER_TS
         synonyms:
           - order_timestamp
           - order_creation_date
@@ -543,7 +543,7 @@ tables:
           - order_receipt_date
           - order_datetime
         description: Date on which the order was placed.
-        expr: ORDER_DATE
+        expr: ORDER_TS
         data_type: DATE
         sample_values:
           - '2021-12-20'
