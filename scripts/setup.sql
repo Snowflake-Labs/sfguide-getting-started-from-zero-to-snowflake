@@ -501,53 +501,52 @@ GROUP BY ALL
 ORDER BY date;
 
 -- Orders view for the Semantic Layer
+
 CREATE OR REPLACE VIEW tb_101.semantic_layer.orders_v
+COMMENT = 'Provides a clean, business-friendly view of order data, filtered to include only orders from known customers and locations.'
 AS
-SELECT * FROM (
-    SELECT
-        order_id::VARCHAR AS order_id,
-        truck_id::VARCHAR AS truck_id,
-        order_detail_id::VARCHAR AS order_detail_id,
-        truck_brand_name,
-        menu_type,
-        primary_city,
-        region,
-        country,
-        franchise_flag,
-        franchise_id::VARCHAR AS franchise_id,
-        location_id::VARCHAR AS location_id,
-        customer_id::VARCHAR AS customer_id,
-        gender,
-        marital_status,
-        menu_item_id::VARCHAR AS menu_item_id,
-        menu_item_name,
-        quantity,
-        order_total
-    FROM tb_101.harmonized.orders_v
-)
-LIMIT 10000;
+SELECT
+    order_id::VARCHAR AS order_id,
+    truck_id::VARCHAR AS truck_id,
+    order_detail_id::VARCHAR AS order_detail_id,
+    truck_brand_name,
+    menu_type,
+    primary_city,
+    region,
+    country,
+    franchise_flag,
+    franchise_id::VARCHAR AS franchise_id,
+    location_id::VARCHAR AS location_id,
+    customer_id::VARCHAR AS customer_id,
+    gender,
+    marital_status,
+    menu_item_id::VARCHAR AS menu_item_id,
+    menu_item_name,
+    quantity,
+    order_total,
+    DATE(order_ts) AS order_date
+FROM 
+    tb_101.harmonized.orders_v
+WHERE
+    customer_id IS NOT NULL 
+    AND primary_city IS NOT NULL;
 
 -- Customer Loyalty Metrics view for the Semantic Layer
 CREATE OR REPLACE VIEW tb_101.semantic_layer.customer_loyalty_metrics_v
 AS
-SELECT * FROM (
-    SELECT
-        cl.customer_id::VARCHAR AS customer_id,
-        cl.city,
-        cl.country,
-        SUM(o.order_total) AS total_sales,
-        ARRAY_AGG(DISTINCT o.location_id::VARCHAR) WITHIN GROUP (ORDER BY o.location_id::VARCHAR) AS visited_location_ids_array
+SELECT
+    cl.customer_id::VARCHAR AS customer_id,
+    cl.city,
+    cl.country,
+    SUM(o.order_total) AS total_sales,
+    ARRAY_AGG(DISTINCT o.location_id::VARCHAR) WITHIN GROUP (ORDER BY o.location_id::VARCHAR) AS visited_location_ids_array
     FROM tb_101.harmonized.customer_loyalty_metrics_v AS cl
     JOIN tb_101.harmonized.orders_v AS o
         ON cl.customer_id = o.customer_id
     GROUP BY
         cl.customer_id,
         cl.city,
-        cl.country
-    ORDER BY
-        cl.customer_id
-)
-LIMIT 10000;
+        cl.country;
 
 /*--
  raw zone table load 
