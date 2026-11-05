@@ -5,9 +5,9 @@ Copyright(c): 2025 Snowflake Inc. All rights reserved.
 ****************************************************************************************************
 
 AISQL Functions
-1. USE SENTIMENT() to score and label truck customer reviews as Positive, Negative, or Neutral
+1. Use AI_SENTIMENT() to label truck customer reviews as Positive, Negative, Neutral, or Mixed
 2. Use AI_CLASSIFY() to categorized reviews by themes like Food Quality or Service Experience
-3. Use EXTRACT_ANSWER() to pull specific complaints or praise from review text
+3. Use AI_EXTRACT() to pull specific complaints or praise from review text
 4. Use AI_SUMMARIZE_AGG() to generate quick summaries of customer sentiment per truck brand name
 
 ****************************************************************************************************/
@@ -28,8 +28,8 @@ USE WAREHOUSE tb_analyst_wh;
     Analyze customer sentiment across all food truck brands to identify which trucks are 
     performing best and create fleet-wide customer satisfaction metrics.
     In Cortex Playground, we analyzed individual reviews manually. Now we’ll use the 
-    SENTIMENT() function to automatically score customer reviews from -1 (negative) to +1 (positive),
-    following Snowflake's official sentiment ranges.
+    AI_SENTIMENT() function to automatically label customer reviews as positive, negative,
+    neutral, or mixed.
     ***************************************************************/
 
 -- Business Question: “How do customers feel about each of our truck brands overall?”
@@ -38,13 +38,15 @@ USE WAREHOUSE tb_analyst_wh;
 SELECT
     truck_brand_name,
     COUNT(*) AS total_reviews,
-    AVG(CASE WHEN sentiment >= 0.5 THEN sentiment END) AS avg_positive_score,
-    AVG(CASE WHEN sentiment BETWEEN -0.5 AND 0.5 THEN sentiment END) AS avg_neutral_score,
-    AVG(CASE WHEN sentiment <= -0.5 THEN sentiment END) AS avg_negative_score
+    COUNT_IF(sentiment = 'positive') AS positive_reviews,
+    COUNT_IF(sentiment = 'neutral') AS neutral_reviews,
+    COUNT_IF(sentiment = 'mixed') AS mixed_reviews,
+    COUNT_IF(sentiment = 'negative') AS negative_reviews,
+    ROUND(positive_reviews / total_reviews * 100, 1) AS pct_positive
 FROM (
     SELECT
         truck_brand_name,
-        SNOWFLAKE.CORTEX.SENTIMENT (review) AS sentiment
+        AI_SENTIMENT(review):categories[0]:sentiment::STRING AS sentiment
     FROM harmonized.truck_reviews_v
     WHERE
         language ILIKE '%en%'
@@ -58,13 +60,9 @@ ORDER BY total_reviews DESC;
 /*
     Key Insight:
         Notice how we transitioned from analyzing reviews one at a time in Cortex Playground to 
-        systematically processing thousands. The SENTIMENT() function automatically                       
-        scored every review and categorized them into Positive, Negative, and Neutral - giving 
+        systematically processing thousands. The AI_SENTIMENT() function automatically
+        labeled every review as Positive, Negative, Neutral, or Mixed - giving
         us instant fleet-wide customer satisfaction metrics.
-    Sentiment Score Ranges:
-        Positive:   0.5 to 1
-        Neutral:   -0.5 to 0.5
-        Negative:  -0.5 to -1
 */
 
 /* 2. Categorize Customer Feedback
@@ -118,7 +116,7 @@ ORDER BY
 
 /* 3. Extract Specific Operational Insights
     ***************************************************************
-    Next, to gain precise answers from unstructured text, we'll utilize the EXTRACT_ANSWER() 
+    Next, to gain precise answers from unstructured text, we'll utilize the AI_EXTRACT() 
     function. This powerful function enables us to ask specific business questions about customer 
     feedback and receive direct answers. In this step, our goal is to identify precise operational 
     issues mentioned in customer reviews, highlighting specific problems that require immediate attention.
@@ -131,10 +129,10 @@ ORDER BY
     truck_brand_name,
     primary_city,
     LEFT(review, 100) || '...' AS review_preview,
-    SNOWFLAKE.CORTEX.EXTRACT_ANSWER(
-        review,
-        'What specific improvement or complaint is mentioned in this review?'
-    ) AS specific_feedback
+    AI_EXTRACT(
+        text => review,
+        responseFormat => {'specific_feedback': 'What specific complaint, problem, or praise does the customer mention?'}
+    ):response:specific_feedback::STRING AS specific_feedback
 FROM 
     harmonized.truck_reviews_v
 WHERE 
@@ -146,7 +144,7 @@ LIMIT 10000;
 
 /*
     Key Insight:
-        Notice how EXTRACT_ANSWER() distills specific, actionable insights from long customer reviews. 
+        Notice how AI_EXTRACT() distills specific, actionable insights from long customer reviews. 
         Rather than manual review, this function automatically identifies concrete feedback like 
         "friendly staff was saving grace" and "hot dogs are cooked to perfection." The result is a 
         transformation of dense text into specific, quotable feedback that the operations team can leverage instantly.
